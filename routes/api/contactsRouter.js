@@ -28,7 +28,7 @@ router
 
 
 router
-  .route("/:id/favorite")
+  .route("/:contactId/favorite")
   .patch(validateBody(updateFavoriteSchema), updateFavorite);
  
 
