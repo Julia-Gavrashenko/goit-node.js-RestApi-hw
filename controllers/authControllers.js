@@ -1,9 +1,15 @@
+const { User } = require("../models/userMongooseSchema");
 const { HttpError, asyncWrapper } = require("../utils");
 // const { asyncWrapper } = require("../utils");
-const { User } = require("../models/userMongooseSchema");
+
 
 const register = asyncWrapper(async (req, res, next) => {
-const newUser = 
+  const newUser = await User.create(req.body)
+  
+  res.status(201).json({
+    email: newUser.email,
+    name: newUser.name,
+  });
 });
 
 
