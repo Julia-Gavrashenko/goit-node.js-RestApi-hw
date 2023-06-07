@@ -4,6 +4,8 @@ const { HttpError, asyncWrapper } = require("../utils");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { SECRET_KEY } = process.env;
+
 const register = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -31,18 +33,24 @@ const login = asyncWrapper(async (req, res, next) => {
     throw new HttpError(401, "Email or password invalid");
   }
 
-
-    const payload = { id: user._id };
+  const payload = { id: user._id };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
 
-  // const token = ""
-  // res.json({
-  //   token,
-  // })
+
+  res.json({
+    token,
+  })
 });
+
+const getCurrent = asyncWrapper(async (req, res, next) => {
+    const { email, name } = req.user;
+  res.json({ email, name});
+  })
+
 
 module.exports = {
   register,
   login,
+  getCurrent,
 };

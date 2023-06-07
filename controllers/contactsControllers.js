@@ -2,16 +2,15 @@ const { HttpError } = require("../utils");
 const { asyncWrapper } = require("../utils");
 const { Contact } = require("../models/contactMongooseSchema");
 
-// const {
-//   listContacts,
-//   getContactById,
-//   addContact,
-//   removeContact,
-//   updateContactById,
-// } = require("../models/contacts");
-
 const getListContacts = asyncWrapper(async (req, res, next) => {
-  const allContacts = await Contact.find();
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 20, favorite = false } = req.query;
+  const skip = (page - 1) * limit;
+
+  const allContacts = await Contact.find({ owner }, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).populate("owner", "name email");
   res.status(200).json(allContacts);
 });
 
@@ -25,7 +24,8 @@ const getOneContact = asyncWrapper(async (req, res, next) => {
 });
 
 const addNewContact = asyncWrapper(async (req, res, next) => {
-  const newContact = await Contact.create(req.body);
+  const { _id: owner } = req.user;
+  const newContact = await Contact.create({ ...req.body, owner });
   res.status(201).json(newContact);
 });
 
