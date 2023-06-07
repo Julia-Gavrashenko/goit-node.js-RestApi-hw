@@ -5,10 +5,11 @@ const {
   loginSchema,
   subscriptionSchema,
 } = require("../../schemas/authSchema");
-const {register} = require("../../controllers/authControllers")
+const {register, login} = require("../../controllers/authControllers")
 
 const router = express.Router();
 
 router.post("/register", validateBody(registerSchema), register)
+router.post("/login", validateBody(loginSchema), login)
 
 module.exports = router;
