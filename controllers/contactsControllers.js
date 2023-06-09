@@ -4,10 +4,18 @@ const { Contact } = require("../models/contactMongooseSchema");
 
 const getListContacts = asyncWrapper(async (req, res, next) => {
   const { _id: owner } = req.user;
-  const { page = 1, limit = 20, favorite = false } = req.query;
+  const { page = 1, limit = 20, favorite } = req.query;
   const skip = (page - 1) * limit;
 
-  const allContacts = await Contact.find({ owner }, "-createdAt -updatedAt", {
+  const filter = { owner };
+  if (favorite === "true") {
+    filter.favorite = true;
+  }
+  if (favorite === "false") {
+    filter.favorite = false;
+  }
+
+  const allContacts = await Contact.find(filter, "-createdAt -updatedAt", {
     skip,
     limit,
   }).populate("owner", "name email");

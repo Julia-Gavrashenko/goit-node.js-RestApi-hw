@@ -56,9 +56,18 @@ const logout = asyncWrapper(async (req, res, next) => {
   });
 });
 
+const updateSubscription = asyncWrapper(async (req, res) => {
+  const { _id, name, email } = req.user;
+  const { subscription } = req.body;
+  console.log(subscription);
+  await User.findByIdAndUpdate(_id, { subscription: subscription });
+  res.status(201).json({ name, email, subscription });
+});
+
 module.exports = {
   register,
   login,
   getCurrent,
   logout,
+  updateSubscription,
 };
