@@ -36,20 +36,60 @@ module.exports = app;
 
 
 
-const Mailjet = require('node-mailjet');
-require("dotenv").config();
+// const Mailjet = require('node-mailjet');
+// require("dotenv").config();
 
-const { MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, MJ_SENDER_EMAIL } = process.env;
+// const { MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, MJ_SENDER_EMAIL } = process.env;
 
-const mailjet = new Mailjet({
-  apiKey: MJ_APIKEY_PUBLIC,
-  apiSecret: MJ_APIKEY_PRIVATE
-});
+// const mailjet = new Mailjet({
+//   apiKey: MJ_APIKEY_PUBLIC,
+//   apiSecret: MJ_APIKEY_PRIVATE
+// });
 
 
-// const request = mailjet
-//         .post('send', { version: 'v3.1' })
-//         .request({
+// // const request = mailjet
+// //         .post('send', { version: 'v3.1' })
+// //         .request({
+// //           Messages: [
+// //             {
+// //               From: {
+// //                 Email: MJ_SENDER_EMAIL,
+// //                 // Name: "Mailjet Pilot"
+// //               },
+// //               To: [
+// //                 {
+// //                   Email: "passenger1@mailjet.com",
+// //                   Name: "passenger 1"
+// //                 }
+// //               ],
+// //               Subject: "Your email flight plan!",
+// //               TextPart: "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
+// //               HTMLPart: "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
+// //             }
+// //           ]
+// //         })
+
+// // request
+// //     .then((result) => {
+// //         console.log(result.body)
+// //     })
+// //     .catch((err) => {
+// //         console.log(err.statusCode)
+// //     })
+
+
+
+// // const data = {
+// //   to: "",
+// //   subject: "",
+// //   htmlPart: "",
+
+// //     }
+
+
+// const sendEmail = async(data) => {
+//   await mailjet.post('send', { version: 'v3.1' }).request({
+       
 //           Messages: [
 //             {
 //               From: {
@@ -58,55 +98,15 @@ const mailjet = new Mailjet({
 //               },
 //               To: [
 //                 {
-//                   Email: "passenger1@mailjet.com",
-//                   Name: "passenger 1"
+//                   Email: data.to,
+//                   // Name: "passenger 1"
 //                 }
 //               ],
-//               Subject: "Your email flight plan!",
-//               TextPart: "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-//               HTMLPart: "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!"
+//               Subject: data.subject,
+//               // TextPart: "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
+//               HTMLPart: data.htmlPart,
 //             }
 //           ]
-//         })
-
-// request
-//     .then((result) => {
-//         console.log(result.body)
-//     })
-//     .catch((err) => {
-//         console.log(err.statusCode)
-//     })
-
-
-
-// const data = {
-//   to: "",
-//   subject: "",
-//   htmlPart: "",
-
+//   })
+//     return true
 //     }
-
-
-const sendEmail = async(data) => {
-  await mailjet.post('send', { version: 'v3.1' }).request({
-       
-          Messages: [
-            {
-              From: {
-                Email: MJ_SENDER_EMAIL,
-                // Name: "Mailjet Pilot"
-              },
-              To: [
-                {
-                  Email: data.to,
-                  // Name: "passenger 1"
-                }
-              ],
-              Subject: data.subject,
-              // TextPart: "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-              HTMLPart: data.htmlPart,
-            }
-          ]
-  })
-    return true
-    }
